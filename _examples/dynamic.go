@@ -103,25 +103,25 @@ func (d *demoDynamic) initKeybindings(g *gocui.Gui) error {
 	}
 	if err := g.SetKeybinding("", gocui.KeyArrowLeft, gocui.ModNone,
 		func(g *gocui.Gui, v *gocui.View) error {
-			return moveView(g, v, -d.delta, 0)
+			return d.moveView(g, v, -d.delta, 0)
 		}); err != nil {
 		return err
 	}
 	if err := g.SetKeybinding("", gocui.KeyArrowRight, gocui.ModNone,
 		func(g *gocui.Gui, v *gocui.View) error {
-			return moveView(g, v, d.delta, 0)
+			return d.moveView(g, v, d.delta, 0)
 		}); err != nil {
 		return err
 	}
 	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone,
 		func(g *gocui.Gui, v *gocui.View) error {
-			return moveView(g, v, 0, d.delta)
+			return d.moveView(g, v, 0, d.delta)
 		}); err != nil {
 		return err
 	}
 	if err := g.SetKeybinding("", gocui.KeyArrowUp, gocui.ModNone,
 		func(g *gocui.Gui, v *gocui.View) error {
-			return moveView(g, v, 0, -d.delta)
+			return d.moveView(g, v, 0, -d.delta)
 		}); err != nil {
 		return err
 	}
@@ -191,7 +191,7 @@ func (d *demoDynamic) nextView(g *gocui.Gui, disableCurrent bool) error {
 	return nil
 }
 
-func moveView(g *gocui.Gui, v *gocui.View, dx, dy int) error {
+func (d *demoDynamic) moveView(g *gocui.Gui, v *gocui.View, dx, dy int) error {
 	name := v.Name()
 	x0, y0, x1, y1, err := g.ViewPosition(name)
 	if err != nil {

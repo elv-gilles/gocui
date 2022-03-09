@@ -13,7 +13,7 @@ type demoCustomFrames struct {
 	active  int
 }
 
-func setCurrentViewOnTop(g *gocui.Gui, name string) (*gocui.View, error) {
+func (d *demoCustomFrames) setCurrentViewOnTop(g *gocui.Gui, name string) (*gocui.View, error) {
 	if _, err := g.SetCurrentView(name); err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func (d *demoCustomFrames) nextView(g *gocui.Gui, v *gocui.View) error {
 	}
 	_, _ = fmt.Fprintln(out, "Going from view "+v.Name()+" to "+name)
 
-	if _, err := setCurrentViewOnTop(g, name); err != nil {
+	if _, err := d.setCurrentViewOnTop(g, name); err != nil {
 		return err
 	}
 
@@ -54,7 +54,7 @@ func (d *demoCustomFrames) layout(g *gocui.Gui) error {
 		v.Autoscroll = true
 		_, _ = fmt.Fprintln(v, "View with default frame color")
 		_, _ = fmt.Fprintln(v, "It's connected to v2 with overlay RIGHT.\n")
-		if _, err = setCurrentViewOnTop(g, "v1"); err != nil {
+		if _, err = d.setCurrentViewOnTop(g, "v1"); err != nil {
 			return err
 		}
 	}

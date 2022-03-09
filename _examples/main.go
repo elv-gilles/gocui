@@ -49,8 +49,8 @@ func demoNames() []string {
 func usage() string {
 	sb := strings.Builder{}
 	sb.WriteString("usage:\n")
-	sb.WriteString(fmt.Sprintf("%s        : select a demo from the gui and run it\n", os.Args[0]))
-	sb.WriteString(fmt.Sprintf("%s <demo> : run the 'demo' argument\n", os.Args[0]))
+	sb.WriteString("go run .        : select a demo from the gui and run it\n")
+	sb.WriteString("go run . <demo> : run the 'demo' argument\n")
 	sb.WriteString("\n")
 	sb.WriteString("  where 'demo' can be one of: \n")
 
@@ -137,6 +137,21 @@ func (d *runDemos) moveSelected(v *gocui.View, delta int) {
 	if d.selected < 0 {
 		d.selected = len(d.demos) - 1
 	}
+
+	x0, y0 := v.Origin()
+	_, _, _, y1 := v.Dimensions()
+	lcount := y1 - 1
+
+	for d.selected < y0+lcount {
+		y0--
+		_ = v.SetOrigin(x0, y0)
+		_ = v.SetCursor(x0, y0)
+	}
+	for d.selected >= y0+lcount {
+		y0++
+		_ = v.SetOrigin(x0, y0)
+		_ = v.SetCursor(x0, y0)
+	}
 	_ = v.SetHighlight(d.selected, true)
 }
 
@@ -150,23 +165,48 @@ func (d *runDemos) selectPrev(_ *gocui.Gui, v *gocui.View) error {
 	return nil
 }
 
-func (d *runDemos) layout(g *gocui.Gui) error {
-	width := 80
-	x0 := 0
-	x1 := x0 + width
+func (d *runDemos) adjustDim(max, minDim, pos, dim int) (p0 int, p1 int) {
+	p0 = pos
+	p1 = p0 + dim
+	for p1 > max {
+		for p0 > 0 {
+			p0--
+			p1 = p0 + dim
+			if p1 < max {
+				return
+			}
+		}
+		for dim > minDim {
+			dim--
+			p1 = p0 + dim
+			if p1 < max {
+				return
+			}
+		}
+		p1 = max
+	}
+	return
+}
 
-	view, err := g.SetView("help", x0, 5, x1, 9, 0)
+func (d *runDemos) layout(g *gocui.Gui) error {
+	maxX, maxY := g.Size()
+
+	x0, x1 := d.adjustDim(maxX, 20, 5, 80)
+	y0 := 0
+	y1 := y0 + 4
+
+	view, err := g.SetView("help", x0, y0, x1, y1, 0)
 	if err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
+		view.Wrap = true
 		_, _ = fmt.Fprintln(view, "Use the arrow keys to select a demo")
 		_, _ = fmt.Fprintln(view, "Press [Enter] to run the selected demo (Ctrl-C to exit the demo)")
 		_, _ = fmt.Fprintln(view, "Ctrl-C to exit")
 	}
 
-	y0 := 10
-	y1 := y0 + len(d.demos) + 1
+	y0, y1 = d.adjustDim(maxY, 5, y1+1, len(d.demos)+1)
 	view, err = g.SetView("demos", x0, y0, x1, y1, 0)
 	if err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
@@ -191,11 +231,11 @@ func (d *runDemos) runSelectedDemo(_ *gocui.Gui, _ *gocui.View) error {
 
 	if name == "stdin" {
 		lines := []string{
-			fmt.Sprintf("This example doesn't work when running `%s stdin`", os.Args[0]),
-			fmt.Sprintf("you are supposed to pipe something to this like: `/bin/ls | %s stdin`", os.Args[0]),
+			"This example doesn't work when running `go run . stdin`",
+			"you are supposed to pipe something to this like: `/bin/ls | go run . stdin`",
 			"Press 'Esc' to close this view",
 		}
-		messageBox(d.g, 20, 20, "warning", "stdin", lines, "demos")
+		d.messageBox(d.g, 20, 20, "warning", "stdin", lines, "demos")
 		return nil
 	}
 	demoFn := demos[name]
@@ -205,15 +245,17 @@ func (d *runDemos) runSelectedDemo(_ *gocui.Gui, _ *gocui.View) error {
 	return gocui.Resume()
 }
 
-func messageBox(g *gocui.Gui, x0, y0 int, title, viewName string, lines []string, nextView string) {
+func (d *runDemos) messageBox(g *gocui.Gui, x0, y0 int, title, viewName string, lines []string, nextView string) {
 	w := 20
 	for _, l := range lines {
 		if len(l) > w {
 			w = len(l)
 		}
 	}
-	x1 := x0 + w + 2
-	y1 := y0 + len(lines) + 1
+	maxX, maxY := g.Size()
+	x0, x1 := d.adjustDim(maxX, 20, x0, w+2)
+	y0, y1 := d.adjustDim(maxY, 5, y0, len(lines)+1)
+
 	view, err := g.SetView(viewName, x0, y0, x1, y1, 0)
 	if err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
@@ -221,6 +263,7 @@ func messageBox(g *gocui.Gui, x0, y0 int, title, viewName string, lines []string
 		}
 
 		view.Title = title
+		view.Wrap = true
 		for _, line := range lines {
 			_, _ = fmt.Fprintln(view, line)
 		}

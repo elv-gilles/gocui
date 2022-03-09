@@ -34,7 +34,7 @@ func (d *demoActive) nextView(g *gocui.Gui, v *gocui.View) error {
 	}
 	_, _ = fmt.Fprintln(out, "Going from view "+v.Name()+" to "+name)
 
-	if _, err := setCurrentViewOnTop(g, name); err != nil {
+	if _, err := d.setCurrentViewOnTop(g, name); err != nil {
 		return err
 	}
 
@@ -58,7 +58,7 @@ func (d *demoActive) layout(g *gocui.Gui) error {
 		v.Editable = true
 		v.Wrap = true
 
-		if _, err = setCurrentViewOnTop(g, "v1"); err != nil {
+		if _, err = d.setCurrentViewOnTop(g, "v1"); err != nil {
 			return err
 		}
 	}
