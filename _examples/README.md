@@ -8,12 +8,11 @@ Each can be run be alone or selected from the 'main' example.
 
 ```
 gocui $ cd _examples/
-_examples $ go build -o exam ./
 
-_examples $ ./exam --help
+_examples $ go run . --help
 usage:
-./exam        : select a demo from the gui and run it
-./exam <demo> : run the 'demo' argument
+go run .        : select a demo from the gui and run it
+go run . <demo> : run the 'demo' argument
 
   where 'demo' can be one of: 
     active
