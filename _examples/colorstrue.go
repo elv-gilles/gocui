@@ -19,7 +19,7 @@ type demoColorsTrue struct {
 }
 
 func mainColorsTrue() {
-	_ = os.Setenv("COLORTERM", "truecolor")
+	os.Setenv("COLORTERM", "truecolor")
 	g, err := gocui.NewGui(gocui.OutputTrue, true)
 
 	if err != nil {
@@ -90,13 +90,13 @@ func (d *demoColorsTrue) displayHsv(v *gocui.View) {
 			str += fmt.Sprintf("\x1b[48;2;%d;%d;%dm\x1b[38;2;%d;%d;%dm▀\x1b[0m", ir, ig, ib, ir2, ig2, ib2)
 		}
 		str += "\n"
-		_, _ = fmt.Fprint(v, str)
+		fmt.Fprint(v, str)
 		str = ""
 	}
 
-	_, _ = fmt.Fprintln(v, "\n\x1b[38;5;245mCtrl + R - Switch light/dark mode")
-	_, _ = fmt.Fprintln(v, "\nCtrl + C - Exit\n")
-	_, _ = fmt.Fprint(v, "Example should enable true color, but if it doesn't work run this command: \x1b[0mexport COLORTERM=truecolor")
+	fmt.Fprintln(v, "\n\x1b[38;5;245mCtrl + R - Switch light/dark mode")
+	fmt.Fprintln(v, "\nCtrl + C - Exit\n")
+	fmt.Fprint(v, "Example should enable true color, but if it doesn't work run this command: \x1b[0mexport COLORTERM=truecolor")
 }
 
 func (d *demoColorsTrue) hsv(hue, sv int) (uint32, uint32, uint32) {
@@ -108,8 +108,6 @@ func (d *demoColorsTrue) hsv(hue, sv int) (uint32, uint32, uint32) {
 	return ir >> 8, ig >> 8, ib >> 8
 }
 
-func (d *demoColorsTrue) quit(g *gocui.Gui, v *gocui.View) error {
-	_ = g
-	_ = v
+func (d *demoColorsTrue) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }

@@ -24,8 +24,8 @@ func (d *demoWrap) layout(g *gocui.Gui) error {
 		v.Wrap = true
 
 		line := strings.Repeat("This is a long line -- ", 10)
-		_, _ = fmt.Fprintf(v, "%s\n\n", line)
-		_, _ = fmt.Fprintln(v, "Short")
+		fmt.Fprintf(v, "%s\n\n", line)
+		fmt.Fprintln(v, "Short")
 
 		if _, err := g.SetCurrentView("main"); err != nil {
 			return err
@@ -34,7 +34,7 @@ func (d *demoWrap) layout(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoWrap) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoWrap) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 

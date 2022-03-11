@@ -42,7 +42,7 @@ func (w *Label) Layout(g *gocui.Gui) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		_, _ = fmt.Fprint(v, w.body)
+		fmt.Fprint(v, w.body)
 		if _, err := g.SetCurrentView(w.name); err != nil {
 			return err
 		}
@@ -90,8 +90,6 @@ func mainFlowLayout() {
 	}
 }
 
-func (d *demoFlowLayout) quit(g *gocui.Gui, v *gocui.View) error {
-	_ = g
-	_ = v
+func (d *demoFlowLayout) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }

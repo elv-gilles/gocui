@@ -47,10 +47,10 @@ func (d *demoStdin) layout(g *gocui.Gui) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		_, _ = fmt.Fprintln(v, "KEYBINDINGS")
-		_, _ = fmt.Fprintln(v, "↑ ↓: Seek input")
-		_, _ = fmt.Fprintln(v, "a: Enable autoscroll")
-		_, _ = fmt.Fprintln(v, "^C: Exit")
+		fmt.Fprintln(v, "KEYBINDINGS")
+		fmt.Fprintln(v, "↑ ↓: Seek input")
+		fmt.Fprintln(v, "a: Enable autoscroll")
+		fmt.Fprintln(v, "^C: Exit")
 	}
 
 	if v, err := g.SetView("stdin", 0, 0, 80, 35, 0); err != nil {
@@ -80,14 +80,14 @@ func (d *demoStdin) initKeybindings(g *gocui.Gui) error {
 	}
 	if err := g.SetKeybinding("stdin", gocui.KeyArrowUp, gocui.ModNone,
 		func(g *gocui.Gui, v *gocui.View) error {
-			_ = d.scrollView(v, -1)
+			d.scrollView(v, -1)
 			return nil
 		}); err != nil {
 		return err
 	}
 	if err := g.SetKeybinding("stdin", gocui.KeyArrowDown, gocui.ModNone,
 		func(g *gocui.Gui, v *gocui.View) error {
-			_ = d.scrollView(v, 1)
+			d.scrollView(v, 1)
 			return nil
 		}); err != nil {
 		return err
@@ -95,7 +95,7 @@ func (d *demoStdin) initKeybindings(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoStdin) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoStdin) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 

@@ -32,7 +32,7 @@ func mainTitle() {
 	}
 }
 
-func (d *demoTitle) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoTitle) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 

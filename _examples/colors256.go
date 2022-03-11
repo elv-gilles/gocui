@@ -50,10 +50,10 @@ func (d *demoColors256) layout(g *gocui.Gui) error {
 				str += "\n"
 			}
 
-			_, _ = fmt.Fprint(v, str)
+			fmt.Fprint(v, str)
 		}
 
-		_, _ = fmt.Fprint(v, "\n\n")
+		fmt.Fprint(v, "\n\n")
 
 		// 8-colors escape codes
 		ctr := 0
@@ -64,7 +64,7 @@ func (d *demoColors256) layout(g *gocui.Gui) error {
 					str += "\n"
 				}
 
-				_, _ = fmt.Fprint(v, str)
+				fmt.Fprint(v, str)
 
 				ctr++
 			}
@@ -76,8 +76,6 @@ func (d *demoColors256) layout(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoColors256) quit(g *gocui.Gui, v *gocui.View) error {
-	_ = g
-	_ = v
+func (d *demoColors256) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }

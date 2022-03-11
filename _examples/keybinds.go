@@ -18,7 +18,7 @@ func (d *demoKeybinds) layout(g *gocui.Gui) error {
 			return err
 		}
 
-		_, _ = v.Write([]byte("Hello"))
+		v.Write([]byte("Hello"))
 
 		if _, err := g.SetCurrentView("hello"); err != nil {
 			return err
@@ -29,7 +29,7 @@ func (d *demoKeybinds) layout(g *gocui.Gui) error {
 }
 
 // quit stops the gui
-func (d *demoKeybinds) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoKeybinds) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 

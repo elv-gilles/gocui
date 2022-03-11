@@ -43,8 +43,8 @@ func (d *demoMask) layout(g *gocui.Gui) error {
 			return err
 		}
 		v.Title = "Keybindings"
-		_, _ = fmt.Fprintln(v, "^a: Set mask")
-		_, _ = fmt.Fprintln(v, "^c: Exit")
+		fmt.Fprintln(v, "^a: Set mask")
+		fmt.Fprintln(v, "^c: Exit")
 	}
 
 	if v, err := g.SetView("input", 0, 0, maxX-24, maxY-1, 0); err != nil {

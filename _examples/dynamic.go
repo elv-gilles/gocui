@@ -58,14 +58,14 @@ func (d *demoDynamic) layout(g *gocui.Gui) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		_, _ = fmt.Fprintln(v, "KEYBINDINGS")
-		_, _ = fmt.Fprintln(v, "Space: New View")
-		_, _ = fmt.Fprintln(v, "Tab: Next View")
-		_, _ = fmt.Fprintln(v, "← ↑ → ↓: Move View")
-		_, _ = fmt.Fprintln(v, "Backspace: Delete View")
-		_, _ = fmt.Fprintln(v, "t: Set view on top")
-		_, _ = fmt.Fprintln(v, "b: Set view on bottom")
-		_, _ = fmt.Fprintln(v, "^C: Exit")
+		fmt.Fprintln(v, "KEYBINDINGS")
+		fmt.Fprintln(v, "Space: New View")
+		fmt.Fprintln(v, "Tab: Next View")
+		fmt.Fprintln(v, "← ↑ → ↓: Move View")
+		fmt.Fprintln(v, "Backspace: Delete View")
+		fmt.Fprintln(v, "t: Set view on top")
+		fmt.Fprintln(v, "b: Set view on bottom")
+		fmt.Fprintln(v, "^C: Exit")
 	}
 	return nil
 }
@@ -151,7 +151,7 @@ func (d *demoDynamic) newView(g *gocui.Gui) error {
 			return err
 		}
 		v.Wrap = true
-		_, _ = fmt.Fprintln(v, strings.Repeat(name+" ", 30))
+		fmt.Fprintln(v, strings.Repeat(name+" ", 30))
 	}
 	if _, err := g.SetCurrentView(name); err != nil {
 		return err
@@ -177,7 +177,6 @@ func (d *demoDynamic) delView(g *gocui.Gui) error {
 }
 
 func (d *demoDynamic) nextView(g *gocui.Gui, disableCurrent bool) error {
-	_ = disableCurrent
 	next := d.curView + 1
 	if next > len(d.views)-1 {
 		next = 0

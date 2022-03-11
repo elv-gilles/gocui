@@ -38,19 +38,19 @@ func (d *demoOnTop) layout(g *gocui.Gui) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		_, _ = fmt.Fprintln(v, "View #1")
+		fmt.Fprintln(v, "View #1")
 	}
 	if v, err := g.SetView("v2", 20, 4, 40, 8, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		_, _ = fmt.Fprintln(v, "View #2")
+		fmt.Fprintln(v, "View #2")
 	}
 	if v, err := g.SetView("v3", 30, 6, 50, 10, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		_, _ = fmt.Fprintln(v, "View #3")
+		fmt.Fprintln(v, "View #3")
 		if _, err := g.SetCurrentView("v3"); err != nil {
 			return err
 		}

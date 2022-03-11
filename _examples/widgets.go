@@ -45,7 +45,7 @@ func (w *HelpWidget) Layout(g *gocui.Gui) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		_, _ = fmt.Fprint(v, w.body)
+		fmt.Fprint(v, w.body)
 	}
 	return nil
 }
@@ -81,7 +81,7 @@ func (w *StatusbarWidget) Layout(g *gocui.Gui) error {
 	v.Clear()
 
 	rep := int(w.val * float64(w.w-1))
-	_, _ = fmt.Fprint(v, strings.Repeat("▒", rep))
+	fmt.Fprint(v, strings.Repeat("▒", rep))
 	return nil
 }
 
@@ -109,7 +109,7 @@ func (w *ButtonWidget) Layout(g *gocui.Gui) error {
 		if err := g.SetKeybinding(w.name, gocui.KeyEnter, gocui.ModNone, w.handler); err != nil {
 			return err
 		}
-		_, _ = fmt.Fprint(v, w.label)
+		fmt.Fprint(v, w.label)
 	}
 	return nil
 }
@@ -144,7 +144,7 @@ func mainWidgets() {
 	}
 }
 
-func (d *demoWidgets) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoWidgets) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 

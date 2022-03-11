@@ -73,9 +73,7 @@ func (d *demoGoRoutine) keybindings(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoGoRoutine) quit(g *gocui.Gui, v *gocui.View) error {
-	_ = g
-	_ = v
+func (d *demoGoRoutine) quit(*gocui.Gui, *gocui.View) error {
 	close(d.done)
 	return gocui.ErrQuit
 }
@@ -105,8 +103,8 @@ func (d *demoGoRoutine) counter(g *gocui.Gui) {
 					x = 10
 				}
 				y := d.ctr % d.numGoroutines
-				_ = v.SetWritePos(x, y)
-				_, _ = fmt.Fprintln(v, n)
+				v.SetWritePos(x, y)
+				fmt.Fprintln(v, n)
 				return nil
 			})
 		}

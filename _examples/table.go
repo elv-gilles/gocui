@@ -47,15 +47,15 @@ func (t *Table) Layout(g *gocui.Gui) error {
 	for cid, column := range t.Columns {
 		size := int(float32(width+1) * column.Size)
 
-		_ = view.SetWritePos(hOffset, 0)
+		view.SetWritePos(hOffset, 0)
 		view.WriteString(column.Title)
 
 		for rid := 0; rid < height; rid++ {
 			if rid < len(t.Data[cid]) {
-				_ = view.SetWritePos(hOffset, rid+1)
+				view.SetWritePos(hOffset, rid+1)
 				view.WriteString(t.Data[cid][rid])
 			}
-			_ = view.SetWritePos(hOffset+size-1, rid)
+			view.SetWritePos(hOffset+size-1, rid)
 			view.WriteRunes([]rune{'│'})
 		}
 
@@ -97,6 +97,6 @@ func mainTable() {
 	}
 }
 
-func (d *demoTable) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoTable) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }

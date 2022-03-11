@@ -32,7 +32,7 @@ func (d *demoActive) nextView(g *gocui.Gui, v *gocui.View) error {
 	if err != nil {
 		return err
 	}
-	_, _ = fmt.Fprintln(out, "Going from view "+v.Name()+" to "+name)
+	fmt.Fprintln(out, "Going from view "+v.Name()+" to "+name)
 
 	if _, err := d.setCurrentViewOnTop(g, name); err != nil {
 		return err
@@ -78,7 +78,7 @@ func (d *demoActive) layout(g *gocui.Gui) error {
 		v.Title = "v3"
 		v.Wrap = true
 		v.Autoscroll = true
-		_, _ = fmt.Fprint(v, "Press TAB to change current view")
+		fmt.Fprint(v, "Press TAB to change current view")
 	}
 	if v, err := g.SetView("v4", maxX/2, maxY/2, maxX-1, maxY-1, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
@@ -90,9 +90,7 @@ func (d *demoActive) layout(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoActive) quit(g *gocui.Gui, v *gocui.View) error {
-	_ = g
-	_ = v
+func (d *demoActive) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 

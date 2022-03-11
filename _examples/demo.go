@@ -27,7 +27,6 @@ func (d *demo) nextView(g *gocui.Gui, v *gocui.View) error {
 }
 
 func (d *demo) cursorDown(g *gocui.Gui, v *gocui.View) error {
-	_ = g
 	if v != nil {
 		cx, cy := v.Cursor()
 		if err := v.SetCursor(cx, cy+1); err != nil {
@@ -41,7 +40,6 @@ func (d *demo) cursorDown(g *gocui.Gui, v *gocui.View) error {
 }
 
 func (d *demo) cursorUp(g *gocui.Gui, v *gocui.View) error {
-	_ = g
 	if v != nil {
 		ox, oy := v.Origin()
 		cx, cy := v.Cursor()
@@ -68,7 +66,7 @@ func (d *demo) getLine(g *gocui.Gui, v *gocui.View) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		_, _ = fmt.Fprintln(v, l)
+		fmt.Fprintln(v, l)
 		if _, err := g.SetCurrentView("msg"); err != nil {
 			return err
 		}
@@ -77,7 +75,6 @@ func (d *demo) getLine(g *gocui.Gui, v *gocui.View) error {
 }
 
 func (d *demo) delMsg(g *gocui.Gui, v *gocui.View) error {
-	_ = v
 	if err := g.DeleteView("msg"); err != nil {
 		return err
 	}
@@ -87,9 +84,7 @@ func (d *demo) delMsg(g *gocui.Gui, v *gocui.View) error {
 	return nil
 }
 
-func (d *demo) quit(g *gocui.Gui, v *gocui.View) error {
-	_ = g
-	_ = v
+func (d *demo) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 
@@ -126,12 +121,11 @@ func (d *demo) keybindings(g *gocui.Gui) error {
 }
 
 func (d *demo) saveMain(g *gocui.Gui, v *gocui.View) error {
-	_ = g
 	f, err := ioutil.TempFile("", "gocui_demo_")
 	if err != nil {
 		return err
 	}
-	defer func() { _ = f.Close() }()
+	defer f.Close()
 
 	p := make([]byte, 5)
 	v.Rewind()
@@ -153,12 +147,11 @@ func (d *demo) saveMain(g *gocui.Gui, v *gocui.View) error {
 }
 
 func (d *demo) saveVisualMain(g *gocui.Gui, v *gocui.View) error {
-	_ = g
 	f, err := ioutil.TempFile("", "gocui_demo_")
 	if err != nil {
 		return err
 	}
-	defer func() { _ = f.Close() }()
+	defer f.Close()
 
 	vb := v.ViewBuffer()
 	if _, err := io.Copy(f, strings.NewReader(vb)); err != nil {
@@ -176,11 +169,11 @@ func (d *demo) layout(g *gocui.Gui) error {
 		v.Highlight = true
 		v.SelBgColor = gocui.ColorGreen
 		v.SelFgColor = gocui.ColorBlack
-		_, _ = fmt.Fprintln(v, "Item 1")
-		_, _ = fmt.Fprintln(v, "Item 2")
-		_, _ = fmt.Fprintln(v, "Item 3")
-		_, _ = fmt.Fprint(v, "\rWill be")
-		_, _ = fmt.Fprint(v, "deleted\rItem 4\nItem 5")
+		fmt.Fprintln(v, "Item 1")
+		fmt.Fprintln(v, "Item 2")
+		fmt.Fprintln(v, "Item 3")
+		fmt.Fprint(v, "\rWill be")
+		fmt.Fprint(v, "deleted\rItem 4\nItem 5")
 	}
 	if v, err := g.SetView("main", 30, -1, maxX, maxY, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
@@ -190,7 +183,7 @@ func (d *demo) layout(g *gocui.Gui) error {
 		if err != nil {
 			panic(err)
 		}
-		_, _ = fmt.Fprintf(v, "%s", b)
+		fmt.Fprintf(v, "%s", b)
 		v.Editable = true
 		v.Wrap = true
 		if _, err := g.SetCurrentView("main"); err != nil {

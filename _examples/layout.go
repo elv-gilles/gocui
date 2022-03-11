@@ -23,7 +23,7 @@ func (d *demoLayout) layout(g *gocui.Gui) error {
 			return err
 		}
 
-		_, _ = g.SetCurrentView("main")
+		g.SetCurrentView("main")
 	}
 	if _, err := g.SetView("cmdline", -1, maxY-5, maxX, maxY, 0); err != nil && !errors.Is(err, gocui.ErrUnknownView) {
 		return err
@@ -32,7 +32,7 @@ func (d *demoLayout) layout(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoLayout) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoLayout) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 

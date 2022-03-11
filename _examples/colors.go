@@ -53,6 +53,6 @@ func (d *demoColors) layout(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoColors) quit(g *gocui.Gui, v *gocui.View) error {
+func (d *demoColors) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }

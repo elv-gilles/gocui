@@ -58,7 +58,7 @@ func (d *demoOverlap) layout(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoOverlap) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoOverlap) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 

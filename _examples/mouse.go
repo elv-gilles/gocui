@@ -56,10 +56,10 @@ func (d *demoMouse) layout(g *gocui.Gui) error {
 		}
 		v.SelBgColor = gocui.ColorGreen
 		v.SelFgColor = gocui.ColorBlack
-		_, _ = fmt.Fprintln(v, "Button 1 - line 1")
-		_, _ = fmt.Fprintln(v, "Button 1 - line 2")
-		_, _ = fmt.Fprintln(v, "Button 1 - line 3")
-		_, _ = fmt.Fprintln(v, "Button 1 - line 4")
+		fmt.Fprintln(v, "Button 1 - line 1")
+		fmt.Fprintln(v, "Button 1 - line 2")
+		fmt.Fprintln(v, "Button 1 - line 3")
+		fmt.Fprintln(v, "Button 1 - line 4")
 		if _, err := g.SetCurrentView("but1"); err != nil {
 			return err
 		}
@@ -70,7 +70,7 @@ func (d *demoMouse) layout(g *gocui.Gui) error {
 		}
 		v.SelBgColor = gocui.ColorGreen
 		v.SelFgColor = gocui.ColorBlack
-		_, _ = fmt.Fprintln(v, "Button 2 - line 1")
+		fmt.Fprintln(v, "Button 2 - line 1")
 	}
 	d.updateHighlightedView(g)
 	return nil
@@ -97,7 +97,7 @@ func (d *demoMouse) keybindings(g *gocui.Gui) error {
 	return nil
 }
 
-func (d *demoMouse) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoMouse) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
 
@@ -119,7 +119,7 @@ func (d *demoMouse) showMsg(g *gocui.Gui, v *gocui.View) error {
 		v.Clear()
 		v.SelBgColor = gocui.ColorCyan
 		v.SelFgColor = gocui.ColorBlack
-		_, _ = fmt.Fprintln(v, l)
+		fmt.Fprintln(v, l)
 	}
 	return nil
 }
@@ -139,7 +139,7 @@ func (d *demoMouse) moveMsg(g *gocui.Gui) {
 	if !d.movingMsg && (mx != d.initialMouseX || my != d.initialMouseY) {
 		d.movingMsg = true
 	}
-	_, _ = g.SetView("msg", mx-d.xOffset, my-d.yOffset, mx-d.xOffset+20, my-d.yOffset+2, 0)
+	g.SetView("msg", mx-d.xOffset, my-d.yOffset, mx-d.xOffset+20, my-d.yOffset+2, 0)
 }
 
 func (d *demoMouse) msgDown(g *gocui.Gui, v *gocui.View) error {

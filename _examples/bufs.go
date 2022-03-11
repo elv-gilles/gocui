@@ -18,7 +18,7 @@ type demoBufs struct {
 	vbuf, buf string
 }
 
-func (d *demoBufs) quit(g *gocui.Gui, v *gocui.View) error {
+func (d *demoBufs) quit(_ *gocui.Gui, v *gocui.View) error {
 	d.vbuf = v.ViewBuffer()
 	d.buf = v.Buffer()
 	return gocui.ErrQuit

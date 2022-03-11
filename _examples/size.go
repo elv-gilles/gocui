@@ -45,10 +45,10 @@ func (d *demoSize) layout(g *gocui.Gui) error {
 		}
 	}
 	v.Clear()
-	_, _ = fmt.Fprintf(v, "%d, %d", maxX, maxY)
+	fmt.Fprintf(v, "%d, %d", maxX, maxY)
 	return nil
 }
 
-func (d *demoSize) quit(_ *gocui.Gui, _ *gocui.View) error {
+func (d *demoSize) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }

@@ -46,14 +46,12 @@ func (d *demoHello) layout(g *gocui.Gui) error {
 			return err
 		}
 
-		_, _ = fmt.Fprintln(v, "Hello world!")
+		fmt.Fprintln(v, "Hello world!")
 	}
 
 	return nil
 }
 
-func (d *demoHello) quit(g *gocui.Gui, v *gocui.View) error {
-	_ = g
-	_ = v
+func (d *demoHello) quit(*gocui.Gui, *gocui.View) error {
 	return gocui.ErrQuit
 }
